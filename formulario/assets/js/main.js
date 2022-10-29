@@ -8,23 +8,32 @@ class ValidaFormulario {
   }
   eventos() {
     this.formulario.addEventListener('submit', e => { //pega o submit
-      this.handleSubmt(e); //aciona o metodo handle
+      this.handleSubmit(e); //aciona o metodo handle
     });
 
   }
-  handleSubmt(e) {
+  handleSubmit(e) {
     e.preventDefault(); //previne o comportamento padrão, não envia o form
     const camposValidos = this.camposValidos(); //aciona o metodo para checar os campos do formulario
     const senhasValidas = this.senhasSaoValidas();
+    if (camposValidos && senhasValidas) {
+      alert('Formulario enviado!!!')
+      this.formulario.submit();
+    }
   }
 
-  senhasSaoValidas(){
+  senhasSaoValidas() {
     let valid = true;
     const senha = this.formulario.querySelector('.senha')
     const repetirSenha = this.formulario.querySelector('.repetir-senha')
-    if(senha.value!==repetirSenha.value){
-      
-      this.criaErro(campo)
+    if (senha.value !== repetirSenha.value) {
+
+      this.criaErro(senha, 'Campos senha e repetir-senha precisão ser iguais ')
+      this.criaErro(repetirSenha, 'Campos senha e repetir-senha precisão ser iguais ')
+    }
+    if (senha.value.length < 6 || senha.value.length > 12) {
+      valid = false;
+      this.criaErro(senha, 'Senha precisa ter entre 6 e/ou 12 caracteres')
     }
 
     return valid
@@ -49,32 +58,34 @@ class ValidaFormulario {
         if (!this.validaUsuario(campo)) valid = false;
       }
     }
-    return valid;//se ele passar por todas as verificações e terminar verdadeiro e porq funfo tudo
+    return valid; //se ele passar por todas as verificações e terminar verdadeiro e porq funfo tudo
 
   }
   validaUsuario(campo) {
     const usuario = campo.value;
-    let valid = true ;
-    if(usuario.length <3 || usuario.length > 12) {
-      this.criaErro(campo,'usuario precisa ter entre 3 a 12 caracteres')
+    let valid = true;
+    if (usuario.length < 3 || usuario.length > 12) {
+      this.criaErro(campo, 'usuario precisa ter entre 3 a 12 caracteres')
       valid = false;
     }
-    if(usuario.math(/^[a-zA-Z0-9]+$/g) ){
-      this.criaErro(campo,'Nome de usúario precisa conter  apenas letras e/ou números.');
+    if (usuario.math(/^[a-zA-Z0-9]+$/g)) {
+      this.criaErro(campo, 'Nome de usúario precisa conter  apenas letras e/ou números.');
       valid = false;
     }
-    return valid ;
+    return valid;
   }
 
 
   validaCPF(campo) {
-    const cpf = new this.validaCPF(campo.value); //inportando a class e passando os dados para class
+    const cpf = new validaCPF(campo.value); //inportando a class e passando os dados para class
     if (!cpf.valida()) { //caso venha false  ja vai meter o erro na cara 
       this.criaErro(campo, 'CPF inválido.');
       return false
     }
     return true;
   }
+
+
 
 
   criaErro(campo, msg) {
