@@ -27,7 +27,7 @@ class ValidaFormulario {
     const senha = this.formulario.querySelector('.senha')
     const repetirSenha = this.formulario.querySelector('.repetir-senha')
     if (senha.value !== repetirSenha.value) {
-
+      valid = false;
       this.criaErro(senha, 'Campos senha e repetir-senha precisão ser iguais ')
       this.criaErro(repetirSenha, 'Campos senha e repetir-senha precisão ser iguais ')
     }
@@ -64,6 +64,7 @@ class ValidaFormulario {
   validaUsuario(campo) {
     const usuario = campo.value;
     let valid = true;
+    
     if (usuario.length < 3 || usuario.length > 12) {
       this.criaErro(campo, 'usuario precisa ter entre 3 a 12 caracteres')
       valid = false;
