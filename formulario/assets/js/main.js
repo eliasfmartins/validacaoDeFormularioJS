@@ -2,30 +2,31 @@ class ValidaFormulario {
   constructor() {
     this.formulario = document.querySelector('.formulario') //seleciona o form
     this.eventos(); //aciona o metodo eventos
-
-
-
   }
+  //ate aqui ta certo
   eventos() {
     this.formulario.addEventListener('submit', e => { //pega o submit
       this.handleSubmit(e); //aciona o metodo handle
     });
-
+//funfando
   }
+
   handleSubmit(e) {
     e.preventDefault(); //previne o comportamento padrão, não envia o form
-    const camposValidos = this.camposValidos(); //aciona o metodo para checar os campos do formulario
+    const camposValidos = this.camposSaoValidos(); //aciona o metodo para checar os campos do formulario
     const senhasValidas = this.senhasSaoValidas();
     if (camposValidos && senhasValidas) {
-      alert('Formulario enviado!!!')
+      alert('Formulario enviado!!!');
       this.formulario.submit();
     }
   }
-
+//funfando
   senhasSaoValidas() {
     let valid = true;
-    const senha = this.formulario.querySelector('.senha')
-    const repetirSenha = this.formulario.querySelector('.repetir-senha')
+
+    const senha = this.formulario.querySelector('.senha');
+    const repetirSenha = this.formulario.querySelector('.repetir-senha');
+
     if (senha.value !== repetirSenha.value) {
       valid = false;
       this.criaErro(senha, 'Campos senha e repetir-senha precisão ser iguais ')
@@ -33,17 +34,19 @@ class ValidaFormulario {
     }
     if (senha.value.length < 6 || senha.value.length > 12) {
       valid = false;
-      this.criaErro(senha, 'Senha precisa ter entre 6 e/ou 12 caracteres')
+      this.criaErro(senha, 'Senha precisa ter entre 6 e/ou 12 caracteres');
     }
 
-    return valid
-
+    return valid;
   }
+  //funfando
 
 
-  camposValidos() {
+  camposSaoValidos() {
     let valid = true; //a flag começa com true se tudo estiver correto ela vai terminar verdadeira ,caso o contrario ela vai retornar false;
-    for (let errorText of this.formulario.querySelectorAll('.error-text')) errorText.remove() //vai remover o erro
+    for (let errorText of this.formulario.querySelectorAll('.error-text')){
+      errorText.remove() //vai remover o erro
+    } 
 
     for (let campo of this.formulario.querySelectorAll('.validar')) { //usa o for para percorrer todos os campos do formulario , coloca -se uma class em comum a todos os capos que vc queira verificar 
       const label = campo.previousElementSibling.innerHTML; //seleciona o irmão anterior do elemento no caso o label
@@ -64,12 +67,12 @@ class ValidaFormulario {
   validaUsuario(campo) {
     const usuario = campo.value;
     let valid = true;
-    
+
     if (usuario.length < 3 || usuario.length > 12) {
-      this.criaErro(campo, 'usuario precisa ter entre 3 a 12 caracteres')
+      this.criaErro(campo, 'Usuario precisa ter entre 3 a 12 caracteres.');
       valid = false;
     }
-    if (usuario.math(/^[a-zA-Z0-9]+$/g)) {
+    if (!usuario.match(/^[a-zA-Z0-9]+$/g)) {//escreve match direito fdp erro maldito
       this.criaErro(campo, 'Nome de usúario precisa conter  apenas letras e/ou números.');
       valid = false;
     }
@@ -78,10 +81,10 @@ class ValidaFormulario {
 
 
   validaCPF(campo) {
-    const cpf = new validaCPF(campo.value); //inportando a class e passando os dados para class
+    const cpf = new ValidaCPF(campo.value); //inportando a class e passando os dados para class
     if (!cpf.valida()) { //caso venha false  ja vai meter o erro na cara 
       this.criaErro(campo, 'CPF inválido.');
-      return false
+      return false;
     }
     return true;
   }
